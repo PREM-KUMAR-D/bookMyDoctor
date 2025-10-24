@@ -5,6 +5,7 @@ import com.bookmydoctor.bookMyDoctor.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.*;
 
 import java.util.List;
 
@@ -21,8 +22,10 @@ public class DoctorController {
     }
 
     @GetMapping("/get-all")
-    public List<Doctor> getAllDoctors(){
-        return doctorService.getAllDoctors();
+    public ResponseEntity<Page<Doctor>> getAllDoctors(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(doctorService.getAllDoctors(page, size));
     }
     @PostMapping("/add")
     public Doctor addDoctor(@RequestBody Doctor d){
@@ -32,6 +35,14 @@ public class DoctorController {
     public Doctor getDoctorById(@PathVariable Long id) {
         return doctorService.getDoctorById(id);
     }
+    @GetMapping("/search")
+    public ResponseEntity<Page<Doctor>> searchDoctors(
+            @RequestParam String query,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        return ResponseEntity.ok(doctorService.searchDoctors(query, page, size));
+    }
+
     @GetMapping("/speciality/{speciality}")
     public ResponseEntity<List<Doctor>> getDoctorsBySpeciality(@PathVariable String speciality) {
         List<Doctor> doctors = doctorService.getDoctorsBySpeciality(speciality);

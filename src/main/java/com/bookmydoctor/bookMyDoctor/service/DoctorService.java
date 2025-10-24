@@ -4,6 +4,7 @@ import com.bookmydoctor.bookMyDoctor.entity.Doctor;
 import com.bookmydoctor.bookMyDoctor.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.*;
 
 import java.util.List;
 @Service
@@ -20,8 +21,9 @@ public class DoctorService {
         return repository.save(doctor);
     }
 
-    public List<Doctor> getAllDoctors() {
-       return repository.findAll();
+    public Page<Doctor> getAllDoctors(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return repository.findAll(pageable);
     }
 
     public Doctor getDoctorById(Long id) {
@@ -31,5 +33,12 @@ public class DoctorService {
 
     public List<Doctor> getDoctorsBySpeciality(String speciality) {
         return repository.findBySpecialityIgnoreCase(speciality);
+    }
+
+    public Page<Doctor> searchDoctors(String query, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("name").ascending());
+        return repository.findByNameContainingIgnoreCaseOrSpecialityContainingIgnoreCase(
+                query, query, pageable
+        );
     }
 }
