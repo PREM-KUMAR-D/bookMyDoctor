@@ -2,13 +2,14 @@ package com.bookmydoctor.bookMyDoctor.controller;
 
 import com.bookmydoctor.bookMyDoctor.entity.Doctor;
 import com.bookmydoctor.bookMyDoctor.service.DoctorService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.data.domain.*;
 
 import java.util.List;
-
+@Slf4j
 @RestController
 @RequestMapping("/api/doctors")
 public class DoctorController {
@@ -25,6 +26,7 @@ public class DoctorController {
     public ResponseEntity<Page<Doctor>> getAllDoctors(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
+        log.info("Getting all the doctors");
         return ResponseEntity.ok(doctorService.getAllDoctors(page, size));
     }
     @PostMapping("/add")

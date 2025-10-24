@@ -5,13 +5,14 @@ import com.bookmydoctor.bookMyDoctor.entity.Doctor;
 import com.bookmydoctor.bookMyDoctor.repository.AppointmentRepository;
 import com.bookmydoctor.bookMyDoctor.repository.DoctorRepository;
 import com.bookmydoctor.bookMyDoctor.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
-
+@Slf4j
 @Service
 public class AppointmentService {
     @Autowired
@@ -46,6 +47,7 @@ public class AppointmentService {
     }
 
     public List<Appointment> getAppointmentsByDate(LocalDate date) {
+        log.info("Getting appointments By Date");
         return appointmentRepository.findByDate(date);
     }
     public List<Appointment> getAppointmentsByUser(Long userId) {
