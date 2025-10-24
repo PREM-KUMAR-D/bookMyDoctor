@@ -29,5 +29,9 @@ public class Appointment {
     @JsonBackReference
     private Doctor doctor;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
     private String status;
 }

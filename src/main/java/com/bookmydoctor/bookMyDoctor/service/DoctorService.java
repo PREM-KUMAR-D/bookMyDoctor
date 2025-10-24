@@ -28,4 +28,8 @@ public class DoctorService {
         return repository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Doctor not found with id: " + id));
     }
+
+    public List<Doctor> getDoctorsBySpeciality(String speciality) {
+        return repository.findBySpecialityIgnoreCase(speciality);
+    }
 }
